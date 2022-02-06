@@ -1,10 +1,10 @@
 package cli
 
 import (
-	"github.com/restechnica/gitsync-cli/pkg/cli/commands"
+	"github.com/restechnica/gitsync-cli/pkg/cli/cmd"
 )
 
 func Run() error {
-	var cmd = commands.NewRootCommand()
-	return cmd.Execute()
+	var command = cmd.NewRootCommand()
+	return command.Execute()
 }
