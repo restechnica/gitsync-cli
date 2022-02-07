@@ -1,8 +1,7 @@
 package cli
 
 import (
-	"fmt"
-
+	v1 "github.com/restechnica/gitsync-cli/pkg/cli/v1"
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +12,8 @@ func NewRootCommand() *cobra.Command {
 		Use: "gitsync",
 	}
 
-	fmt.Println("hello")
+	command.AddCommand(v1.NewV1Command())
+	command.AddCommand(v1.NewVersionCommand())
 
 	return command
 }
