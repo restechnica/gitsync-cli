@@ -11,7 +11,7 @@ func NewV1Command() *cobra.Command {
 		Use: "v1",
 	}
 
-	command.AddCommand(NewVersionCommand())
+	command.AddCommand(NewSyncCommand())
 
 	return command
 }

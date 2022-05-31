@@ -13,7 +13,8 @@ func NewRootCommand() *cobra.Command {
 	}
 
 	command.AddCommand(v1.NewV1Command())
-	command.AddCommand(v1.NewVersionCommand())
+	command.AddCommand(v1.NewSyncCommand())
+	command.AddCommand(NewVersionCommand())
 
 	return command
 }
