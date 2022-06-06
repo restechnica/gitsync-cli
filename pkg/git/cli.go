@@ -9,8 +9,8 @@ type CLI struct {
 
 // NewCLI creates a new CLI with a commander to run git commands.
 // Returns the new CLI.
-func NewCLI() CLI {
-	return CLI{Commander: cmder.NewExecCommander()}
+func NewCLI() *CLI {
+	return &CLI{Commander: cmder.NewExecCommander()}
 }
 
 // AddConfig adds a git config.
