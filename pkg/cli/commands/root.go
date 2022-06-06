@@ -1,7 +1,7 @@
-package cli
+package commands
 
 import (
-	v1 "github.com/restechnica/gitsync-cli/pkg/cli/v1"
+	v1 "github.com/restechnica/gitsync-cli/pkg/cli/commands/v1"
 	"github.com/spf13/cobra"
 )
 
