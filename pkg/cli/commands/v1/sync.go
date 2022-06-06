@@ -1,6 +1,9 @@
 package v1
 
 import (
+	"os"
+
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 
 	"github.com/restechnica/gitsync-cli/pkg/cli"
@@ -44,8 +47,14 @@ func SyncCommandRunE(command *cobra.Command, args []string) (err error) {
 		Source:      command.Flags().Lookup("source").Value.String(),
 	}
 
-	// silence usage because errors at this point are unrelated to CLI usage errors
+	// silence usage and errors because errors at this point are unrelated to CLI usage errors
+	command.SilenceErrors = true
 	command.SilenceUsage = true
 
-	return core.Sync(options)
+	if err = core.Sync(options); err != nil {
+		log.Error().Err(err).Msg("")
+		os.Exit(1)
+	}
+
+	return err
 }

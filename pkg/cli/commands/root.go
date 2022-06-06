@@ -12,7 +12,7 @@ import (
 )
 
 func init() {
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: "15:04:05"})
 }
 
 // NewRootCommand creates a new root command.
@@ -20,7 +20,6 @@ func init() {
 func NewRootCommand() *cobra.Command {
 	var command = &cobra.Command{
 		PersistentPreRunE: RootCommandPersistentPreRunE,
-		SilenceErrors:     true,
 		Use:               "gitsync",
 	}
 

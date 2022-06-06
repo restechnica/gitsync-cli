@@ -14,10 +14,7 @@ type SyncOptions struct {
 }
 
 func Sync(options *SyncOptions) (err error) {
-	log.Info().
-		Str("dst", options.Destination).
-		Str("src", options.Source).
-		Msg("Starting sync...")
+	log.Info().Msg("Starting sync...")
 
 	var workdir string
 	log.Debug().Msg("Creating workspace...")
@@ -71,17 +68,23 @@ func Sync(options *SyncOptions) (err error) {
 		return err
 	}
 
+	log.Info().Str("src", options.Source).Msg("Fetching everything from source...")
+
 	if output, err = gitAPI.FetchAll(); err != nil {
 		return err
 	}
 
 	log.Debug().Msg(output)
+	log.Info().Msg("Fetch done!")
+
+	log.Info().Str("dst", options.Destination).Msg("Pushing to destination...")
 
 	if output, err = gitAPI.PushMirror(options.Destination); err != nil {
 		return err
 	}
 
 	log.Debug().Msg(output)
+	log.Info().Msg("Push done!")
 
 	log.Info().Msg("Sync completed")
 
