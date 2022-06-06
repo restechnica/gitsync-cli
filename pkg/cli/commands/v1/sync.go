@@ -44,5 +44,8 @@ func SyncCommandRunE(command *cobra.Command, args []string) (err error) {
 		Source:      command.Flags().Lookup("source").Value.String(),
 	}
 
+	// silence usage because errors at this point are unrelated to CLI usage errors
+	command.SilenceUsage = true
+
 	return core.Sync(options)
 }
