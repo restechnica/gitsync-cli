@@ -8,8 +8,8 @@ import (
 )
 
 type SyncOptions struct {
-	DestinationPath string
-	TargetUrl       string
+	Destination string
+	Source      string
 }
 
 func Sync(options *SyncOptions) (err error) {
@@ -30,7 +30,7 @@ func Sync(options *SyncOptions) (err error) {
 		return err
 	}
 
-	if output, err = gitAPI.SetConfig("remote.origin.url", options.TargetUrl); err != nil {
+	if output, err = gitAPI.SetConfig("remote.origin.url", options.Source); err != nil {
 		return err
 	}
 
@@ -52,7 +52,7 @@ func Sync(options *SyncOptions) (err error) {
 		return err
 	}
 
-	if output, err = gitAPI.PushMirror(options.DestinationPath); err != nil {
+	if output, err = gitAPI.PushMirror(options.Destination); err != nil {
 		return err
 	}
 

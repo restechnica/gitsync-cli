@@ -16,8 +16,8 @@ func NewSyncCommand() *cobra.Command {
 		Use:     "sync",
 	}
 
-	command.Flags().StringVarP(&cli.DestinationPathFlag, "destination-path", "d", "", "")
-	command.Flags().StringVarP(&cli.TargetUrlFlag, "target-url", "t", "", "")
+	command.Flags().StringVarP(&cli.DestinationFlag, "destination", "d", "", "")
+	command.Flags().StringVarP(&cli.SourceFlag, "source", "s", "", "")
 
 	return command
 }
@@ -25,15 +25,23 @@ func NewSyncCommand() *cobra.Command {
 // SyncCommandPreRunE runs before the command runs.
 // Returns an error if it failed.
 func SyncCommandPreRunE(command *cobra.Command, args []string) (err error) {
-	return command.MarkFlagRequired("target-url")
+	if err = command.MarkFlagRequired("destination"); err != nil {
+		return err
+	}
+
+	if err = command.MarkFlagRequired("source"); err != nil {
+		return err
+	}
+
+	return err
 }
 
 // SyncCommandRunE runs the command.
 // Returns an error if the command fails.
 func SyncCommandRunE(command *cobra.Command, args []string) (err error) {
 	var options = &core.SyncOptions{
-		DestinationPath: command.Flags().Lookup("destination-path").Value.String(),
-		TargetUrl:       command.Flags().Lookup("target-url").Value.String(),
+		Destination: command.Flags().Lookup("destination").Value.String(),
+		Source:      command.Flags().Lookup("source").Value.String(),
 	}
 
 	return core.Sync(options)
