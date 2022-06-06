@@ -37,11 +37,9 @@ func Sync(options *SyncOptions) (err error) {
 	if output, err = gitAPI.AddConfig("remote.origin.fetch", "+refs/heads/*:refs/heads/*"); err != nil {
 		return err
 	}
-
 	if output, err = gitAPI.AddConfig("remote.origin.fetch", "+refs/tags/*:refs/tags/*"); err != nil {
 		return err
 	}
-
 	if output, err = gitAPI.AddConfig("remote.origin.fetch", "+refs/notes/*:refs/notes/*"); err != nil {
 		return err
 	}
