@@ -8,7 +8,8 @@ import (
 // Returns the new V1 root command.
 func NewV1Command() *cobra.Command {
 	var command = &cobra.Command{
-		Use: "v1",
+		Use:   "v1",
+		Short: "v1 sync API",
 	}
 
 	command.AddCommand(NewSyncCommand())

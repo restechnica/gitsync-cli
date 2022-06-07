@@ -16,6 +16,7 @@ func NewSyncCommand() *cobra.Command {
 	var command = &cobra.Command{
 		PreRunE: SyncCommandPreRunE,
 		RunE:    SyncCommandRunE,
+		Short:   "Sync two Git repositories",
 		Use:     "sync",
 	}
 
