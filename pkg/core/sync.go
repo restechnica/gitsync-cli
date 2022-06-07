@@ -13,6 +13,8 @@ type SyncOptions struct {
 	Source      string
 }
 
+// Sync a `source` Git repository into a `destination` Git repository.
+// Returns an error if the sync fails.
 func Sync(options *SyncOptions) (err error) {
 	log.Info().Msg("Starting sync...")
 
