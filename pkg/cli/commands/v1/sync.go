@@ -16,12 +16,12 @@ func NewSyncCommand() *cobra.Command {
 	var command = &cobra.Command{
 		PreRunE: SyncCommandPreRunE,
 		RunE:    SyncCommandRunE,
-		Short:   "Sync two Git repositories",
+		Short:   "Syncs two Git repositories.",
 		Use:     "sync",
 	}
 
-	command.Flags().StringVarP(&cli.DestinationFlag, "destination", "d", "", "")
-	command.Flags().StringVarP(&cli.SourceFlag, "source", "s", "", "")
+	command.Flags().StringVarP(&cli.DestinationFlag, "destination", "d", "", "the destination Git repository")
+	command.Flags().StringVarP(&cli.SourceFlag, "source", "s", "", "the source Git repository")
 
 	return command
 }
