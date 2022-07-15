@@ -1,15 +1,12 @@
 package v1
 
 import (
-	"github.com/restechnica/gitsync-cli/pkg/cli"
-	"github.com/spf13/cobra"
-)
-
-import (
 	"os"
 
 	"github.com/rs/zerolog/log"
+	"github.com/spf13/cobra"
 
+	"github.com/restechnica/gitsync-cli/pkg/cli"
 	"github.com/restechnica/gitsync-cli/pkg/core"
 	"github.com/restechnica/gitsync-cli/pkg/workspace"
 )
