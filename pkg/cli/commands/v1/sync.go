@@ -1,13 +1,17 @@
 package v1
 
 import (
+	"github.com/restechnica/gitsync-cli/pkg/cli"
+	"github.com/spf13/cobra"
+)
+
+import (
 	"os"
 
 	"github.com/rs/zerolog/log"
-	"github.com/spf13/cobra"
 
-	"github.com/restechnica/gitsync-cli/pkg/cli"
 	"github.com/restechnica/gitsync-cli/pkg/core"
+	"github.com/restechnica/gitsync-cli/pkg/workspace"
 )
 
 // NewSyncCommand creates a new V1 sync command.
@@ -43,14 +47,22 @@ func SyncCommandPreRunE(command *cobra.Command, args []string) (err error) {
 // SyncCommandRunE runs the command.
 // Returns an error if the command fails.
 func SyncCommandRunE(command *cobra.Command, args []string) (err error) {
+	// silence usage and errors because errors at this point are unrelated to CLI usage errors
+	command.SilenceErrors = true
+	command.SilenceUsage = true
+
+	var workdir string
+
+	if workdir, err = workspace.SetUp(); err != nil {
+		return err
+	}
+
+	defer workspace.CleanNoError(workdir)
+
 	var options = &core.SyncOptions{
 		Destination: command.Flags().Lookup("destination").Value.String(),
 		Source:      command.Flags().Lookup("source").Value.String(),
 	}
-
-	// silence usage and errors because errors at this point are unrelated to CLI usage errors
-	command.SilenceErrors = true
-	command.SilenceUsage = true
 
 	if err = core.Sync(options); err != nil {
 		log.Error().Err(err).Msg("")

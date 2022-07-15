@@ -1,8 +1,6 @@
 package core
 
 import (
-	"os"
-
 	"github.com/rs/zerolog/log"
 
 	"github.com/restechnica/gitsync-cli/pkg/git"
@@ -18,28 +16,11 @@ type SyncOptions struct {
 func Sync(options *SyncOptions) (err error) {
 	log.Info().Msg("Starting sync...")
 
-	var workdir string
-	log.Debug().Msg("Creating workspace...")
-
-	if workdir, err = os.MkdirTemp("", "tmp.*"); err != nil {
-		return err
-	}
-
 	defer func() {
 		if err != nil {
 			log.Warn().Msg("An error interrupted the syncing process")
 		}
-
-		log.Debug().Msg("Cleaning up workspace...")
-		_ = os.RemoveAll(workdir)
-		log.Debug().Msg("Cleaning all done!")
 	}()
-
-	if err = os.Chdir(workdir); err != nil {
-		return err
-	}
-
-	log.Debug().Str("path", workdir).Msg("Using workspace")
 
 	var gitAPI git.API = git.NewCLI()
 	var output string

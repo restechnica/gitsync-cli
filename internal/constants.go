@@ -1,6 +1,9 @@
 package internal
 
 const (
-//// DefaultDestinationPath the default destination filepath to sync a git repo to.
-//DefaultDestinationPath = "."
+//// DefaultDestinationKeyName the default name for the destination key.
+//DefaultDestinationKeyName = "destination_rsa"
+//
+//// DefaultSourceKeyName the default name for the source key.
+//DefaultSourceKeyName = "source_rsa"
 )
