@@ -3,12 +3,14 @@ package core
 import (
 	"github.com/rs/zerolog/log"
 
-	"github.com/restechnica/gitsync-cli/pkg/git"
+	"github.com/restechnica/gitsync-cli/pkg/target"
 )
 
 type SyncOptions struct {
+	// Destination the id of the destination.
 	Destination string
-	Source      string
+	// Source the id of the source.
+	Source string
 }
 
 // Sync a `source` Git repository into a `destination` Git repository.
@@ -22,54 +24,45 @@ func Sync(options *SyncOptions) (err error) {
 		}
 	}()
 
-	var gitAPI git.API = git.NewCLI()
-	var output string
+	log.Info().Msg("Selecting compatible source...")
 
-	if output, err = gitAPI.InitBareRepository("."); err != nil {
+	var source target.Target
+
+	if source, err = target.SelectCompatibleTarget(options.Source); err != nil {
 		return err
 	}
 
-	log.Debug().Msg(output)
+	log.Info().
+		Str("src", options.Source).
+		Str("target", source.GetName()).
+		Msg("Pulling from source...")
 
-	if output, err = gitAPI.SetConfig("remote.origin.url", options.Source); err != nil {
+	if err = source.Pull(options.Source); err != nil {
 		return err
 	}
 
-	if output, err = gitAPI.AddConfig("remote.origin.fetch", "+refs/heads/*:refs/heads/*"); err != nil {
+	log.Info().Msg("Pull done!")
+
+	log.Info().Msg("Selecting compatible destination...")
+
+	var destination target.Target
+
+	if destination, err = target.SelectCompatibleTarget(options.Destination); err != nil {
 		return err
 	}
 
-	if output, err = gitAPI.AddConfig("remote.origin.fetch", "+refs/tags/*:refs/tags/*"); err != nil {
+	log.Info().
+		Str("dst", options.Destination).
+		Str("target", destination.GetName()).
+		Msg("Pushing to destination...")
+
+	if err = destination.Push(options.Destination); err != nil {
 		return err
 	}
 
-	if output, err = gitAPI.AddConfig("remote.origin.fetch", "+refs/notes/*:refs/notes/*"); err != nil {
-		return err
-	}
-
-	if output, err = gitAPI.SetConfig("remote.origin.mirror", "true"); err != nil {
-		return err
-	}
-
-	log.Info().Str("src", options.Source).Msg("Fetching everything from source...")
-
-	if output, err = gitAPI.FetchAll(); err != nil {
-		return err
-	}
-
-	log.Debug().Msg(output)
-	log.Info().Msg("Fetch done!")
-
-	log.Info().Str("dst", options.Destination).Msg("Pushing to destination...")
-
-	if output, err = gitAPI.PushMirror(options.Destination); err != nil {
-		return err
-	}
-
-	log.Debug().Msg(output)
 	log.Info().Msg("Push done!")
 
-	log.Info().Msg("Sync completed")
+	log.Info().Msg("Sync completed!")
 
 	return err
 }
