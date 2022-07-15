@@ -33,8 +33,8 @@ func Sync(options *SyncOptions) (err error) {
 	}
 
 	log.Info().
-		Str("src", options.Source).
 		Str("target", source.GetName()).
+		Str("src", options.Source).
 		Msg("Pulling from source...")
 
 	if err = source.Pull(options.Source); err != nil {
@@ -52,8 +52,8 @@ func Sync(options *SyncOptions) (err error) {
 	}
 
 	log.Info().
-		Str("dst", options.Destination).
 		Str("target", destination.GetName()).
+		Str("dst", options.Destination).
 		Msg("Pushing to destination...")
 
 	if err = destination.Push(options.Destination); err != nil {
