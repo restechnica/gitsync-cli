@@ -15,7 +15,8 @@ type SyncOptions struct {
 	Source string
 }
 
-// Sync a `source` Git repository into a `destination` Git repository.
+// Sync pulls files from a source and pushes them to a destination.
+// It detects how to handle different sources and destinations based on available targets.
 // Returns an error if the sync fails.
 func Sync(options *SyncOptions) (err error) {
 	log.Info().Msg("Starting sync...")
