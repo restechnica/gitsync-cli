@@ -1,6 +1,9 @@
 package cli
 
+import "github.com/restechnica/gitsync-cli/pkg/target"
+
 var (
-//// DefaultDestinationPath the default destination filepath to sync a git repo to.
-//DefaultDestinationPath = internal.DefaultDestinationPath
+	DefaultTargets = []target.Target{
+		target.NewGitTarget(),
+	}
 )

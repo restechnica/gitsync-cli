@@ -7,6 +7,8 @@ import (
 )
 
 type SyncOptions struct {
+	// AvailableTargets the available targets for destination and source.
+	AvailableTargets []target.Target
 	// Destination the id of the destination.
 	Destination string
 	// Source the id of the source.
@@ -28,7 +30,7 @@ func Sync(options *SyncOptions) (err error) {
 
 	var source target.Target
 
-	if source, err = target.SelectCompatibleTarget(options.Source); err != nil {
+	if source, err = target.SelectCompatibleTarget(options.Source, options.AvailableTargets); err != nil {
 		return err
 	}
 
@@ -47,7 +49,7 @@ func Sync(options *SyncOptions) (err error) {
 
 	var destination target.Target
 
-	if destination, err = target.SelectCompatibleTarget(options.Destination); err != nil {
+	if destination, err = target.SelectCompatibleTarget(options.Destination, options.AvailableTargets); err != nil {
 		return err
 	}
 

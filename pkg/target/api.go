@@ -4,16 +4,12 @@ import (
 	"fmt"
 )
 
-func SelectCompatibleTarget(id string) (target Target, err error) {
-	var targets = []Target{
-		NewGitTarget(),
-	}
-
+func SelectCompatibleTarget(id string, targets []Target) (target Target, err error) {
 	for _, target = range targets {
 		if target.IsCompatible(id) {
 			return target, err
 		}
 	}
 
-	return target, fmt.Errorf(`failed to determine target for id "%s"`, id)
+	return target, fmt.Errorf(`failed to select target for id "%s"`, id)
 }

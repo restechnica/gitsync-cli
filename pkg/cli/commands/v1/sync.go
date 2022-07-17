@@ -57,8 +57,9 @@ func SyncCommandRunE(command *cobra.Command, args []string) (err error) {
 	defer workspace.CleanNoError(workdir)
 
 	var options = &core.SyncOptions{
-		Destination: command.Flags().Lookup("destination").Value.String(),
-		Source:      command.Flags().Lookup("source").Value.String(),
+		AvailableTargets: cli.DefaultTargets,
+		Destination:      command.Flags().Lookup("destination").Value.String(),
+		Source:           command.Flags().Lookup("source").Value.String(),
 	}
 
 	if err = core.Sync(options); err != nil {
