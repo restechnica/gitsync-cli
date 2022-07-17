@@ -6,6 +6,7 @@ import (
 	"github.com/restechnica/gitsync-cli/pkg/cli/commands"
 )
 
+// Run will execute the CLI root command.
 func Run() (err error) {
 	var command = commands.NewRootCommand()
 

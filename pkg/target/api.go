@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func SelectCompatibleTarget(id string, targets []Target) (target Target, err error) {
+func SelectTarget(id string, targets []Target) (target Target, err error) {
 	for _, target = range targets {
 		if target.IsCompatible(id) {
 			return target, err
