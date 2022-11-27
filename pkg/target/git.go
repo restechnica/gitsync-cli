@@ -78,3 +78,9 @@ func (target GitTarget) Push(id string) (err error) {
 
 	return err
 }
+
+// String converts an GitTarget to a string representation
+// returns a string representation of an GitTarget
+func (target GitTarget) String() string {
+	return target.GetName()
+}
