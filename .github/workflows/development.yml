@@ -19,14 +19,20 @@ jobs:
         with:
           go-version: 1.17
 
+      - name: set up path
+        run: |
+          mkdir -p bin
+          echo "$(pwd)/bin" >> $GITHUB_PATH
+
       - name: install semverbot
         run: |
-          curl -o bin/sbot -L https://github.com/restechnica/semverbot/releases/download/v$SEMVERBOT_VERSION/sbot-linux-amd64
+          curl -o bin/sbot -L https://github.com/restechnica/semverbot/releases/download/v${SEMVERBOT_VERSION}/sbot-linux-amd64
           chmod +x bin/sbot
 
       - name: update version
         run: |
           sbot update version
+          
           current_version="$(sbot get version)"
           release_version="$(sbot predict version)"
           
