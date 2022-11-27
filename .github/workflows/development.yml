@@ -2,7 +2,7 @@ name: development
 
 on:
   push:
-    branches: [ main ]
+    branches-ignore: [ main ]
 
 env:
   SEMVERBOT_VERSION: "1.1.0"
