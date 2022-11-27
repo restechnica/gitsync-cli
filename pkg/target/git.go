@@ -21,7 +21,7 @@ func (target GitTarget) GetName() string {
 	return "git"
 }
 
-// IsCompatible checks whether an id can be used as a GitTarget.
+// IsCompatible checks whether an id can be used with a GitTarget.
 // Returns true if the id is compatible.
 func (target GitTarget) IsCompatible(id string) bool {
 	return strings.HasSuffix(id, ".git")
