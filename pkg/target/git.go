@@ -12,7 +12,7 @@ import (
 type GitTarget struct {
 }
 
-// NewGitTarget creates a new Target for remote git repositories.
+// NewGitTarget creates a new GitTarget.
 // Returns the new GitTarget.
 func NewGitTarget() GitTarget {
 	return GitTarget{}
