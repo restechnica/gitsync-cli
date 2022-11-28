@@ -8,21 +8,35 @@ import (
 	"github.com/restechnica/gitsync-cli/pkg/git"
 )
 
+// GitTarget a Target to pull and push remote git repositories.
 type GitTarget struct {
 }
 
+// NewGitTarget creates a new GitTarget.
+// Returns the new GitTarget.
 func NewGitTarget() GitTarget {
 	return GitTarget{}
 }
 
+// GetName gets a unique id used for all GitTarget instances.
+// Returns the name.
 func (target GitTarget) GetName() string {
 	return "git"
 }
 
+// IsCompatible checks whether an id can be used with a GitTarget.
+// Returns true if the id is compatible.
 func (target GitTarget) IsCompatible(id string) bool {
-	return strings.HasSuffix(id, ".git")
+	var isHTTPS = strings.HasPrefix(id, "https")
+	var isSSH = strings.HasPrefix(id, "git@")
+
+	return (isHTTPS || isSSH) && strings.HasSuffix(id, ".git")
 }
 
+// Pull pulls a remote git repository into the current working directory.
+// The id parameter has to be a valid git origin URL.
+// The remote git repository can be a URL or a filesystem path.
+// Returns an error if something went wrong.
 func (target GitTarget) Pull(id string) (err error) {
 	var gitAPI git.API = git.NewCLI()
 	var output string
@@ -77,4 +91,10 @@ func (target GitTarget) Push(id string) (err error) {
 	log.Debug().Msg(output)
 
 	return err
+}
+
+// String converts an GitTarget to a string representation
+// returns a string representation of an GitTarget
+func (target GitTarget) String() string {
+	return target.GetName()
 }

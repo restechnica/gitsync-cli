@@ -14,11 +14,13 @@ func NewCLI() *CLI {
 }
 
 // AddConfig adds a git config.
-// Returns an error if the command fails
+// Returns an error if the command fails.
 func (api CLI) AddConfig(key string, value string) (output string, err error) {
 	return api.Commander.Output("git", "config", "--add", key, value)
 }
 
+// FetchAll fetches all from the remote git repository.
+// Returns an error if the command fails.
 func (api CLI) FetchAll() (output string, err error) {
 	return api.Commander.Output("git", "fetch", "--all")
 }
@@ -36,6 +38,7 @@ func (api CLI) GetStatus() (output string, err error) {
 }
 
 // PushMirror mirror pushes to a remote url.
+// Returns an error if the command fails.
 func (api CLI) PushMirror(url string) (output string, err error) {
 	return api.Commander.Output("git", "push", "--mirror", url)
 }

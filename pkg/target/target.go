@@ -5,4 +5,5 @@ type Target interface {
 	IsCompatible(id string) bool
 	Pull(id string) error
 	Push(id string) error
+	String() string
 }
