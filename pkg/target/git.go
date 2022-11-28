@@ -8,9 +8,12 @@ import (
 	"github.com/restechnica/gitsync-cli/pkg/git"
 )
 
+// GitTarget a Target to pull and push remote git repositories.
 type GitTarget struct {
 }
 
+// NewGitTarget creates a new Target for remote git repositories.
+// Returns the new GitTarget.
 func NewGitTarget() GitTarget {
 	return GitTarget{}
 }
