@@ -27,7 +27,10 @@ func (target GitTarget) GetName() string {
 // IsCompatible checks whether an id can be used with a GitTarget.
 // Returns true if the id is compatible.
 func (target GitTarget) IsCompatible(id string) bool {
-	return strings.HasSuffix(id, ".git")
+	var isHTTPS = strings.HasPrefix(id, "https")
+	var isSSH = strings.HasPrefix(id, "git@")
+
+	return (isHTTPS || isSSH) && strings.HasSuffix(id, ".git")
 }
 
 // Pull pulls a remote git repository into the current working directory.
