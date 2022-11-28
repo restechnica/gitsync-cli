@@ -3,6 +3,9 @@ package target
 import (
 	"fmt"
 	"strings"
+
+	"github.com/restechnica/gitsync-cli/pkg/s3"
+	"github.com/rs/zerolog/log"
 )
 
 // S3Target a Target to pull and push S3 resources.
@@ -39,7 +42,15 @@ func (target S3Target) Pull(id string) (err error) {
 // The id parameter is an S3 URI.
 // Returns an error if something went wrong.
 func (target S3Target) Push(id string) (err error) {
-	err = fmt.Errorf("pushing an S3 target is not supported yet")
+	var s3API = s3.NewCLI()
+	var output string
+
+	if output, err = s3API.Sync(".", id); err != nil {
+		return err
+	}
+
+	log.Debug().Msg(output)
+
 	return err
 }
 

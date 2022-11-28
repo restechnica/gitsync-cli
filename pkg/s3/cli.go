@@ -16,5 +16,5 @@ func NewCLI() *CLI {
 // Sync syncs to and from s3.
 // Returns an error if the command fails.
 func (api CLI) Sync(source string, destination string) (output string, err error) {
-	return api.Commander.Output("aws", "s3", "sync", source, destination)
+	return api.Commander.Output("aws", "s3", "sync", source, destination, "--delete")
 }
