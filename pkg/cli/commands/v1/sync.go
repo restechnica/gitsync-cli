@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"os"
+	"fmt"
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
@@ -62,9 +62,10 @@ func SyncCommandRunE(command *cobra.Command, args []string) (err error) {
 		Source:           command.Flags().Lookup("source").Value.String(),
 	}
 
+	log.Debug().Msg(fmt.Sprintf("available sync targets: %v", options.AvailableTargets))
+
 	if err = core.Sync(options); err != nil {
 		log.Error().Err(err).Msg("")
-		os.Exit(1)
 	}
 
 	return err
