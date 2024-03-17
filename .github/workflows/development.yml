@@ -22,6 +22,11 @@ jobs:
           cache-dependency-path: go.sum
           go-version: ${{ env.GO_VERSION }}
 
+      - name: set up nushell
+        uses: hustcer/setup-nu@v3.8
+        with:
+          version: ${{ env.NUSHELL_VERSION }}
+
       - name: set up path
         run: |
           mkdir -p bin
