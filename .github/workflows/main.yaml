@@ -6,6 +6,7 @@ on:
 
 env:
   GO_VERSION: 1.22
+  NUSHELL_VERSION: 0.91.0
   SBOT_VERSION: "1.6.2"
 
 jobs:
@@ -20,6 +21,11 @@ jobs:
         with:
           cache-dependency-path: go.sum
           go-version: ${{ env.GO_VERSION }}
+
+      - name: set up nushell
+        uses: hustcer/setup-nu@v3.8
+        with:
+          version: ${{ env.NUSHELL_VERSION }}
 
       - name: set up path
         run: |
@@ -41,11 +47,14 @@ jobs:
       - name: check
         run: make check
 
-      - name: build
-        run: make build
-
       - name: test
         run: make test
+
+      - name: build
+        run: |
+          nu main.nu build --all --version "$(sbot predict version --verbose)"
+          cp bin/gitsync-linux-amd64 bin/gitsync
+          gitsync version
 
       - name: release version
         run: |

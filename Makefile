@@ -1,21 +1,12 @@
 # make sure targets do not conflict with file and folder names
 .PHONY: build clean test
 
-BIN = bin
-GOBUILD = go build
-
-simple-build:
-	$(GOBUILD) -o $(BIN)/gitsync
+build-prerelease:
+	@nu main.nu build
 
 # build the project
 build:
-	$(GOBUILD) -o $(BIN)/gitsync
-	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BIN)/gitsync-windows-amd64.exe
-	GOOS=windows GOARCH=arm64 $(GOBUILD) -o $(BIN)/gitsync-windows-arm64.exe
-	GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BIN)/gitsync-linux-amd64
-	GOOS=linux GOARCH=arm64 $(GOBUILD) -o $(BIN)/gitsync-linux-arm64
-	GOOS=darwin GOARCH=amd64 $(GOBUILD) -o $(BIN)/gitsync-darwin-amd64
-	GOOS=darwin GOARCH=arm64 $(GOBUILD) -o $(BIN)/gitsync-darwin-arm64
+	@nu main.nu build-all
 
 # run quality assessment checks
 check:
