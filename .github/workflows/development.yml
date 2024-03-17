@@ -5,19 +5,21 @@ on:
     branches-ignore: [ main ]
 
 env:
-  SEMVERBOT_VERSION: "1.1.0"
+  GO_VERSION: 1.22
+  SBOT_VERSION: "1.6.2"
 
 jobs:
   build:
     name: pipeline
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: set up go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5
         with:
-          go-version: 1.17
+          cache-dependency-path: go.sum
+          go-version: ${{ env.GO_VERSION }}
 
       - name: set up path
         run: |
@@ -26,21 +28,12 @@ jobs:
 
       - name: install semverbot
         run: |
-          curl -o bin/sbot -L https://github.com/restechnica/semverbot/releases/download/v${SEMVERBOT_VERSION}/sbot-linux-amd64
+          curl -o bin/sbot -L https://github.com/restechnica/semverbot/releases/download/v${SBOT_VERSION}/sbot-linux-amd64
           chmod +x bin/sbot
 
       - name: update version
         run: |
-          sbot update version
-          
-          current_version="$(sbot get version)"
-          release_version="$(sbot predict version)"
-          
-          echo "CURRENT_VERSION=${current_version}" >> $GITHUB_ENV
-          echo "RELEASE_VERSION=${release_version}" >> $GITHUB_ENV
-          
-          echo "current version: ${current_version}"
-          echo "next version: ${release_version}"
+          sbot update version --verbose
 
       - name: provision
         run: make provision

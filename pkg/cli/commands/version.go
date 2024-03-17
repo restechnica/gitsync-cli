@@ -21,8 +21,7 @@ func NewVersionCommand() *cobra.Command {
 }
 
 // VersionCommandRun runs the command.
-// TODO this command is not working as intended, still figuring out how to
-// 		elegantly pass on build arguments, not so nice with makefile
+// TODO this command is not working as intended, still figuring out how to elegantly pass on build arguments, not so nice with makefile
 func VersionCommandRun(cmd *cobra.Command, args []string) {
 	fmt.Printf("gitsync-cli=%s\n", internal.Version)
 }
