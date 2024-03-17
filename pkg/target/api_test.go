@@ -8,7 +8,7 @@ import (
 
 func TestAPI_SelectTarget(t *testing.T) {
 	var availableTargets = []Target{
-		NewGitTarget(),
+		NewRemoteGitTarget(),
 	}
 
 	type Test struct {
@@ -18,7 +18,7 @@ func TestAPI_SelectTarget(t *testing.T) {
 	}
 
 	var tests = []Test{
-		{Name: "SelectTargetSuccessfully", Target: "git@blabla.git", Want: NewGitTarget()},
+		{Name: "SelectTargetSuccessfully", Target: "git@blabla.git", Want: NewRemoteGitTarget()},
 	}
 
 	for _, test := range tests {
