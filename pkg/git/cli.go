@@ -19,6 +19,12 @@ func (api CLI) AddConfig(key string, value string) (output string, err error) {
 	return api.Commander.Output("git", "config", "--add", key, value)
 }
 
+// Clone clones a repository into a directory.
+// Returns an error if the command fails.
+func (api CLI) Clone(repository string, path string) (output string, err error) {
+	return api.Commander.Output("git", "clone", repository, path)
+}
+
 // FetchAll fetches all from the remote git repository.
 // Returns an error if the command fails.
 func (api CLI) FetchAll() (output string, err error) {

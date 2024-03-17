@@ -8,25 +8,25 @@ import (
 	"github.com/restechnica/gitsync-cli/pkg/git"
 )
 
-// GitTarget a Target to pull and push remote git repositories.
-type GitTarget struct {
+// RemoteGitTarget a Target to pull and push remote git repositories.
+type RemoteGitTarget struct {
 }
 
-// NewGitTarget creates a new GitTarget.
-// Returns the new GitTarget.
-func NewGitTarget() GitTarget {
-	return GitTarget{}
+// NewRemoteGitTarget creates a new RemoteGitTarget.
+// Returns the new RemoteGitTarget.
+func NewRemoteGitTarget() RemoteGitTarget {
+	return RemoteGitTarget{}
 }
 
-// GetName gets a unique id used for all GitTarget instances.
+// GetName gets a unique id used for all RemoteGitTarget instances.
 // Returns the name.
-func (target GitTarget) GetName() string {
-	return "git"
+func (target RemoteGitTarget) GetName() string {
+	return "remote-git"
 }
 
-// IsCompatible checks whether an id can be used with a GitTarget.
+// IsCompatible checks whether an id can be used with a RemoteGitTarget.
 // Returns true if the id is compatible.
-func (target GitTarget) IsCompatible(id string) bool {
+func (target RemoteGitTarget) IsCompatible(id string) bool {
 	var isHTTPS = strings.HasPrefix(id, "https")
 	var isSSH = strings.HasPrefix(id, "git@")
 
@@ -37,7 +37,7 @@ func (target GitTarget) IsCompatible(id string) bool {
 // The id parameter has to be a valid git origin URL.
 // The remote git repository can be a URL or a filesystem path.
 // Returns an error if something went wrong.
-func (target GitTarget) Pull(id string) (err error) {
+func (target RemoteGitTarget) Pull(id string) (err error) {
 	var gitAPI git.API = git.NewCLI()
 	var output string
 
@@ -80,7 +80,7 @@ func (target GitTarget) Pull(id string) (err error) {
 // The current working directory has to be a git repository.
 // The remote git repository can be a URL or a filesystem path.
 // Returns an error if something went wrong.
-func (target GitTarget) Push(id string) (err error) {
+func (target RemoteGitTarget) Push(id string) (err error) {
 	var gitAPI git.API = git.NewCLI()
 	var output string
 
@@ -93,8 +93,8 @@ func (target GitTarget) Push(id string) (err error) {
 	return err
 }
 
-// String converts an GitTarget to a string representation
-// returns a string representation of an GitTarget
-func (target GitTarget) String() string {
+// String converts an RemoteGitTarget to a string representation
+// returns a string representation of an RemoteGitTarget
+func (target RemoteGitTarget) String() string {
 	return target.GetName()
 }
