@@ -47,11 +47,14 @@ jobs:
       - name: check
         run: make check
 
-      - name: build
-        run: make build
-
       - name: test
         run: make test
+
+      - name: build
+        run: |
+          nu main.nu build --all --version "$(sbot predict version --verbose)"
+          cp bin/gitsync-linux-amd64 bin/gitsync
+          gitsync version
 
       - name: release version
         run: |
