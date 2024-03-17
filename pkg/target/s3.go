@@ -1,7 +1,6 @@
 package target
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/restechnica/gitsync-cli/pkg/s3"
@@ -34,7 +33,15 @@ func (target S3Target) IsCompatible(id string) bool {
 // The id parameter has to be a valid S3 URI.
 // Returns an error if something went wrong.
 func (target S3Target) Pull(id string) (err error) {
-	err = fmt.Errorf("pulling an S3 target is not supported yet")
+	var s3API = s3.NewCLI()
+	var output string
+
+	if output, err = s3API.Sync(id, "."); err != nil {
+		return err
+	}
+
+	log.Debug().Msg(output)
+
 	return err
 }
 
