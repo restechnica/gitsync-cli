@@ -1,12 +1,13 @@
 package target
 
 import (
-	"strings"
-
-	"github.com/rs/zerolog/log"
+	"path/filepath"
 
 	"github.com/restechnica/gitsync-cli/pkg/git"
+	"github.com/rs/zerolog/log"
 )
+
+const LocalGit = "local-git"
 
 // LocalGitTarget a Target to pull and push local git repositories.
 type LocalGitTarget struct {
@@ -21,16 +22,16 @@ func NewLocalGitTarget() LocalGitTarget {
 // GetName gets a unique id used for all LocalGitTarget instances.
 // Returns the name.
 func (target LocalGitTarget) GetName() string {
-	return "local-git"
+	return LocalGit
 }
 
 // IsCompatible checks whether an id can be used with a LocalGitTarget.
 // Returns true if the id is compatible.
 func (target LocalGitTarget) IsCompatible(id string) bool {
-	var isHTTPS = strings.HasPrefix(id, "https")
-	var isSSH = strings.HasPrefix(id, "git@")
+	var isAbsolutePath = filepath.IsAbs(id)
+	var isLocalPath = filepath.IsLocal(id)
 
-	return !isHTTPS || !isSSH
+	return isAbsolutePath || isLocalPath
 }
 
 // Pull pulls a local git repository into the current working directory.
