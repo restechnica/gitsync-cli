@@ -29,14 +29,14 @@ func (target S3Target) IsCompatible(id string) bool {
 	return strings.HasPrefix(id, "s3")
 }
 
-// Pull pulls an S3 bucket resource into the current working directory.
+// Pull pulls an S3 bucket resource into a directory.
 // The id parameter has to be a valid S3 URI.
 // Returns an error if something went wrong.
-func (target S3Target) Pull(id string) (err error) {
+func (target S3Target) Pull(id string, directory string) (err error) {
 	var s3API = s3.NewCLI()
 	var output string
 
-	if output, err = s3API.Sync(id, "."); err != nil {
+	if output, err = s3API.Sync(id, directory); err != nil {
 		return err
 	}
 
@@ -45,14 +45,14 @@ func (target S3Target) Pull(id string) (err error) {
 	return err
 }
 
-// Push pushes the current working directory to an S3 bucket.
+// Push pushes a directory to an S3 bucket.
 // The id parameter is an S3 URI.
 // Returns an error if something went wrong.
-func (target S3Target) Push(id string) (err error) {
+func (target S3Target) Push(directory string, id string) (err error) {
 	var s3API = s3.NewCLI()
 	var output string
 
-	if output, err = s3API.Sync(".", id); err != nil {
+	if output, err = s3API.Sync(directory, id); err != nil {
 		return err
 	}
 

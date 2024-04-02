@@ -13,6 +13,8 @@ type SyncOptions struct {
 	Destination string
 	// Source the id of the source.
 	Source string
+	// Workspace the temporary workspace to pull the target into.
+	Workspace string
 }
 
 // Sync pulls files from a source and pushes them to a destination.
@@ -40,7 +42,7 @@ func Sync(options *SyncOptions) (err error) {
 		Str("src", options.Source).
 		Msg("Pulling from source...")
 
-	if err = source.Pull(options.Source); err != nil {
+	if err = source.Pull(options.Source, options.Workspace); err != nil {
 		return err
 	}
 
@@ -59,7 +61,7 @@ func Sync(options *SyncOptions) (err error) {
 		Str("dst", options.Destination).
 		Msg("Pushing to destination...")
 
-	if err = destination.Push(options.Destination); err != nil {
+	if err = destination.Push(options.Workspace, options.Destination); err != nil {
 		return err
 	}
 
