@@ -28,7 +28,7 @@ func (target RemoteGitTarget) GetName() string {
 // IsCompatible checks whether an id can be used with a RemoteGitTarget.
 // Returns true if the id is compatible.
 func (target RemoteGitTarget) IsCompatible(id string) bool {
-	var isHTTPS = strings.HasPrefix(id, "https")
+	var isHTTPS = strings.HasPrefix(id, "http")
 	var isSSH = strings.HasPrefix(id, "git@")
 
 	return (isHTTPS || isSSH) && strings.HasSuffix(id, ".git")
