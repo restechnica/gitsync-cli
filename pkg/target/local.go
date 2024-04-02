@@ -38,11 +38,11 @@ func (target LocalGitTarget) IsCompatible(id string) bool {
 // The id parameter has to be a valid filesystem path.
 // The resulting repository is a full repository.
 // Returns an error if something went wrong.
-func (target LocalGitTarget) Pull(id string) (err error) {
+func (target LocalGitTarget) Pull(id string, directory string) (err error) {
 	var gitAPI git.API = git.NewCLI()
 	var output string
 
-	if output, err = gitAPI.Clone(id, "."); err != nil {
+	if output, err = gitAPI.Clone(id, directory); err != nil {
 		return err
 	}
 
@@ -56,11 +56,11 @@ func (target LocalGitTarget) Pull(id string) (err error) {
 // The id parameter has to be a valid filesystem path.
 // The resulting repository is a full repository.
 // Returns an error if something went wrong.
-func (target LocalGitTarget) Push(id string) (err error) {
+func (target LocalGitTarget) Push(directory string, id string) (err error) {
 	var gitAPI git.API = git.NewCLI()
 	var output string
 
-	if output, err = gitAPI.Clone(".", id); err != nil {
+	if output, err = gitAPI.Clone(directory, id); err != nil {
 		return err
 	}
 

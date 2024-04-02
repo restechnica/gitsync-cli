@@ -48,18 +48,19 @@ func SyncCommandRunE(command *cobra.Command, args []string) (err error) {
 	command.SilenceErrors = true
 	command.SilenceUsage = true
 
-	var workdir string
+	var tmpdir string
 
-	if workdir, err = workspace.SetUp(); err != nil {
+	if tmpdir, err = workspace.Create(); err != nil {
 		return err
 	}
 
-	defer workspace.CleanNoError(workdir)
+	defer workspace.CleanNoError(tmpdir)
 
 	var options = &core.SyncOptions{
 		AvailableTargets: cli.DefaultTargets,
 		Destination:      command.Flags().Lookup("destination").Value.String(),
 		Source:           command.Flags().Lookup("source").Value.String(),
+		Workspace:        tmpdir,
 	}
 
 	log.Debug().Msg(fmt.Sprintf("available sync targets: %v", options.AvailableTargets))

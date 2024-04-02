@@ -1,6 +1,7 @@
 package target
 
 import (
+	"os"
 	"strings"
 
 	"github.com/rs/zerolog/log"
@@ -33,13 +34,23 @@ func (target RemoteGitTarget) IsCompatible(id string) bool {
 	return (isHTTPS || isSSH) && strings.HasSuffix(id, ".git")
 }
 
-// Pull pulls a remote git repository into the current working directory.
+// Pull pulls a remote git repository into a directory.
 // The id parameter has to be a valid git origin URL.
 // The remote git repository can be a URL or a filesystem path.
 // Returns an error if something went wrong.
-func (target RemoteGitTarget) Pull(id string) (err error) {
+func (target RemoteGitTarget) Pull(id string, directory string) (err error) {
 	var gitAPI git.API = git.NewCLI()
 	var output string
+
+	var previousDirectory string
+
+	if previousDirectory, err = os.Getwd(); err != nil {
+		return err
+	}
+
+	if err = os.Chdir(directory); err != nil {
+		return err
+	}
 
 	if output, err = gitAPI.InitBareRepository("."); err != nil {
 		return err
@@ -73,22 +84,40 @@ func (target RemoteGitTarget) Pull(id string) (err error) {
 
 	log.Debug().Msg(output)
 
+	if err = os.Chdir(previousDirectory); err != nil {
+		return err
+	}
+
 	return err
 }
 
-// Push pushes the current working directory to a remote git repository.
+// Push pushes a directory to a remote git repository.
 // The current working directory has to be a git repository.
 // The remote git repository can be a URL or a filesystem path.
 // Returns an error if something went wrong.
-func (target RemoteGitTarget) Push(id string) (err error) {
+func (target RemoteGitTarget) Push(directory string, id string) (err error) {
 	var gitAPI git.API = git.NewCLI()
 	var output string
+
+	var previousDirectory string
+
+	if previousDirectory, err = os.Getwd(); err != nil {
+		return err
+	}
+
+	if err = os.Chdir(directory); err != nil {
+		return err
+	}
 
 	if output, err = gitAPI.PushMirror(id); err != nil {
 		return err
 	}
 
 	log.Debug().Msg(output)
+
+	if err = os.Chdir(previousDirectory); err != nil {
+		return err
+	}
 
 	return err
 }
